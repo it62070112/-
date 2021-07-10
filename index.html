@@ -6,346 +6,74 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Time displaying section on Python output HTML page</title>
         <script>
+            function toTag(msg) {
+                return (
+                    '<img src=\"digitAsset/number' + msg + '.png\" height=\"118.5\">'
+                )
+            }
             function onloadFunction() {
+                let arrayOfWeekDaysInThaiLanguage = [
+                    'อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'
+                ];
+                let arrayOfMonthsInThaiLanguage = [
+                    'มกราคม', 'กุมภาพันธ์', 'มีนาคม',
+                    'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+                    'กรกฎาคม', 'สิงหาคม', 'กันยายน',
+                    'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+                ];
                 setInterval(function() {
                     const dateTimeRightNow = new Date();
-                    secondHandRange(
-                        (dateTimeRightNow.getSeconds() * 6)
-                        + ((
-                            dateTimeRightNow.getMilliseconds()
-                            - (dateTimeRightNow.getMilliseconds() % 50)
-                        ) * (6 / Math.pow(10, 3)))
-                    )
-                    minuteHandRange(
-                        (dateTimeRightNow.getMinutes() * 6)
-                        + ((
+                    document.getElementById('text').innerHTML = (
+                        ''
+                        + toTag((
+                            dateTimeRightNow.getHours()
+                            - (dateTimeRightNow.getHours() % 10)
+                        ) / 10)
+                        + toTag(dateTimeRightNow.getHours() % 10)
+                        + toTag('Colon')
+                        + toTag((
+                            dateTimeRightNow.getMinutes()
+                            - (dateTimeRightNow.getMinutes() % 10)
+                        ) / 10)
+                        + toTag(dateTimeRightNow.getMinutes() % 10)
+                        + toTag('Colon')
+                        + toTag((
                             dateTimeRightNow.getSeconds()
                             - (dateTimeRightNow.getSeconds() % 10)
                         ) / 10)
-                    )
-                    hourHandRange(
-                        ((dateTimeRightNow.getHours() % 12) * 30)
-                        + ((
-                            dateTimeRightNow.getMinutes()
-                            - (dateTimeRightNow.getMinutes() % 2)
-                        ) / 2
-                    ))
-                    document.getElementById('meridemIndicator').innerHTML = 'AP'[((
-                        dateTimeRightNow.getHours()
-                        - (dateTimeRightNow.getHours() % 12)
-                    ) / 12)] + 'M';
-                    let daysInWeekArray = [
-                        'Sun'
-                        , 'Mon'
-                        , 'Tue'
-                        , 'Wed'
-                        , 'Thu'
-                        , 'Fri'
-                        , 'Sat'
-                    ];
-                    document.getElementById('currentTimeInDigitalForm').innerHTML = (
-                        ((
-                            (dateTimeRightNow.getHours() % 12)
-                            + ((
-                                (11 - (dateTimeRightNow.getHours() % 12))
-                                - ((11 - (dateTimeRightNow.getHours() % 12)) % 11)
-                            ) * (12 / 11))
-                            + Math.pow(10, 2)
-                        ) + '').substring(1, 3)
-                        + ':'
-                        + ((
-                            dateTimeRightNow.getMinutes()
-                            + Math.pow(10, 2)
-                        ) + '').substring(1, 3)
-                        + ':'
-                        + ((
-                            dateTimeRightNow.getSeconds()
-                            + Math.pow(10, 2)
-                        ) + '').substring(1, 3)
-                        + '.'
-                        + ((
-                            dateTimeRightNow.getMilliseconds()
-                            - (dateTimeRightNow.getMilliseconds() % 100)
-                        ) / 100)
+                        + toTag(dateTimeRightNow.getSeconds() % 10)
+                        + '<br>'
+                        + arrayOfWeekDaysInThaiLanguage [
+                            dateTimeRightNow.getDay()
+                        ]
                         + ' '
-                        + daysInWeekArray[dateTimeRightNow.getDay()]
+                        + dateTimeRightNow.getDate()
                         + ' '
-                        + ((
-                            dateTimeRightNow.getDate()
-                            + Math.pow(10, 2)
-                        ) + '').substring(1, 3)
-                        + '/'
-                        + ((
+                        + arrayOfMonthsInThaiLanguage [
                             dateTimeRightNow.getMonth()
-                            + Math.pow(10, 2)
-                        ) + '').substring(1, 3)
-                        + '/'
-                        + (1900 + dateTimeRightNow.getYear())
-                    )
-                }, 100)
-            }
-            function secondHandRange(val) {
-                document.getElementById('secondsCircumPath').setAttribute(
-                    'd'
-                    , (
-                        'M 120 3 A 117 117 0 '
-                        + ((parseInt(val) - (parseInt(val) % 180)) / 180)
-                        + ' 1 '
-                        + (120 + (
-                            (117 * Math.sin(
-                                (90 - Math.abs((parseInt(val) % 180) - 90)) * (Math.PI / 180)
-                            ))
-                            * (1 - (2 * ((parseInt(val) - (parseInt(val) % 180)) / 180)))
-                        )) + ' '
-                        + (120 - (117 * Math.cos(
-                            (180 - Math.abs(parseInt(val) - 180))
-                        * (Math.PI / 180))))
-                    )
-                );
-                document.getElementById('secondsHandStroke').setAttribute(
-                    'd'
-                    , (
-                        'M 120 120'
-                        + 'L '
-                        + (120 + (
-                            (117 * Math.sin(
-                                (90 - Math.abs((parseInt(val) % 180) - 90)) * (Math.PI / 180)
-                            ))
-                            * (1 - (2 * ((parseInt(val) - (parseInt(val) % 180)) / 180)))
-                        ))
-                        + ' '
-                        + (120 - (117 * Math.cos(
-                            (180 - Math.abs(parseInt(val) - 180))
-                        * (Math.PI / 180))))
-                    )
-                )
-            }
-            function minuteHandRange(val) {
-                document.getElementById('minutesCircumPath').setAttribute(
-                    'd'
-                    , (
-                        'M 120 15 A 105 105 0 '
-                        + ((parseInt(val) - (parseInt(val) % 180)) / 180)
-                        + ' 1 '
-                        + (120 + (
-                            (105 * Math.sin(
-                                (90 - Math.abs((parseInt(val) % 180) - 90)) * (Math.PI / 180)
-                            ))
-                            * (1 - (2 * ((parseInt(val) - (parseInt(val) % 180)) / 180)))
-                        )) + ' '
-                        + (120 - (105 * Math.cos(
-                            (180 - Math.abs(parseInt(val) - 180))
-                        * (Math.PI / 180))))
-                    )
-                );
-                document.getElementById('minutesHandStroke').setAttribute(
-                    'd'
-                    , (
-                        'M 120 120 L '
-                        + (120 + (
-                            (105 * Math.sin(
-                                (90 - Math.abs((parseInt(val) % 180) - 90)) * (Math.PI / 180)
-                            ))
-                            * (1 - (2 * ((parseInt(val) - (parseInt(val) % 180)) / 180)))
-                        ))
-                        + ' '
-                        + (120 - (105 * Math.cos(
-                            (180 - Math.abs(parseInt(val) - 180))
-                        * (Math.PI / 180))))
-                    )
-                )
-            }
-            function hourHandRange(val) {
-                document.getElementById('hoursCircumPath').setAttribute(
-                    'd'
-                    , (
-                        'M 120 50 A 70 70 0 '
-                        + ((parseInt(val) - (parseInt(val) % 180)) / 180)
-                        + ' 1 '
-                        + (120 + (
-                            (70 * Math.sin(
-                                (90 - Math.abs((parseInt(val) % 180) - 90)) * (Math.PI / 180)
-                            ))
-                            * (1 - (2 * ((parseInt(val) - (parseInt(val) % 180)) / 180)))
-                        )) + ' '
-                        + (120 - (70 * Math.cos(
-                            (180 - Math.abs(parseInt(val) - 180))
-                        * (Math.PI / 180))))
-                    )
-                );
-                document.getElementById('hoursHandStroke').setAttribute(
-                    'd'
-                    , (
-                        'M 120 120 L '
-                        + (120 + (
-                            (70 * Math.sin(
-                                (90 - Math.abs((parseInt(val) % 180) - 90)) * (Math.PI / 180)
-                            ))
-                            * (1 - (2 * ((parseInt(val) - (parseInt(val) % 180)) / 180)))
-                        ))
-                        + ' '
-                        + (120 - (70 * Math.cos(
-                            (180 - Math.abs(parseInt(val) - 180))
-                        * (Math.PI / 180))))
-                    )
-                )
-            }
-            function toggleArc() {
-                changeChecker = 0;
-                if (document.getElementById('secondsCircumPath').style.opacity == 0) {
-                    if (changeChecker == 0) {
-                        document.getElementById('secondsCircumPath').style.opacity = '1';
-                        document.getElementById('hoursCircumPath').style.opacity = '1';
-                        document.getElementById('minutesCircumPath').style.opacity = '1';
-                        changeChecker = 1;
-                    }
-                }
-                if (document.getElementById('secondsCircumPath').style.opacity != 0) {
-                    if (changeChecker == 0) {
-                        document.getElementById('secondsCircumPath').style.opacity = '0';
-                        document.getElementById('hoursCircumPath').style.opacity = '0';
-                        document.getElementById('minutesCircumPath').style.opacity = '0';
-                        changeChecker = 1;
-                    }
-                }
-            }
-            function toggleHand() {
-                changeChecker = 0;
-                if (document.getElementById('secondsHandStroke').style.opacity == 0) {
-                    if (changeChecker == 0) {
-                        document.getElementById('secondsHandStroke').style.opacity = '1';
-                        document.getElementById('hoursHandStroke').style.opacity = '1';
-                        document.getElementById('minutesHandStroke').style.opacity = '1';
-                        changeChecker = 1;
-                    }
-                }
-                if (document.getElementById('secondsHandStroke').style.opacity != 0) {
-                    if (changeChecker == 0) {
-                        document.getElementById('secondsHandStroke').style.opacity = '0';
-                        document.getElementById('hoursHandStroke').style.opacity = '0';
-                        document.getElementById('minutesHandStroke').style.opacity = '0';
-                        changeChecker = 1;
-                    }
-                }
+                        ]
+                    );
+                }, 1000)
             }
         </script>
         <style>
-            .areaControlingBorder {
-                border: solid orange 1px;
-                height: 480px;
-                width: 280px;
-                overflow-y: hidden;
+            body {
+                background-color: rgb(60, 64, 66);
             }
-            #clockBackgroundPicture {
-                opacity: 0.8;
+            #text {
+                transform: rotate(180deg);
+                top: 100px;
+                left: 100px;
                 position: relative;
-                left: 20px;
-            }
-            .analogClockArea {
-                position: relative;
-                left: 20px;
-                top: -243px;
-            }
-            #indentingBlock {
-                height: 5px;
-                width: 20px;
-                background-color: white;
-                display: inline-block;
-            }
-            .timeDisplayingArea {
-                position: relative;
-                top: -263px;
+                height: 200px;
+                width: 800px;
+                color: white;
+                font-size: 72px;
                 text-align: center;
-            }
-            #currentTimeInDigitalForm {
-                font-weight: bolder;
-                font-size: 48px;
             }
         </style>
     </head>
     <body onload="onloadFunction()">
-        <div class="areaControlingBorder">
-            <img src="http://bit.ly/llcokx" height="240" id="clockBackgroundPicture">
-            <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="analogClockArea"
-            height="240" width="240"
-            >
-                <path
-                    id="secondsCircumPath"
-                    d="
-                        M 120 3
-                        A 117 117 0 1 1 3 120
-                    "
-                    stroke="red"
-                    fill="none"
-                    stroke-width="5"
-                    style="opacity: 1;"
-                ></path>
-                <path
-                    id="secondsHandStroke"
-                    d="
-                        M 120 120
-                        L 120 3
-                    "
-                    stroke="red"
-                    style="opacity: 0;"
-                ></path>
-                <path
-                    id="minutesCircumPath"
-                    d="
-                        M 120 15
-                        A 105 105 0 1 1 15 120
-                    "
-                    stroke="black"
-                    fill="none"
-                    stroke-width="5"
-                ></path>
-                <path
-                    id="minutesHandStroke"
-                    d="
-                        M 120 120
-                        L 120 15
-                    "
-                    stroke="black"
-                    stroke-width="3"
-                    style="opacity: 0;"
-                ></path>
-                <path
-                    id="hoursCircumPath"
-                    d="
-                        M 120 50
-                        A 70 70 0 1 1 50 120
-                    "
-                    stroke="black"
-                    fill="none"
-                    stroke-width="3"
-                ></path>
-                <path
-                    id="hoursHandStroke"
-                    d="
-                        M 120 120
-                        L 120 50
-                    "
-                    stroke="black"
-                    stroke-width="5"
-                    style="opacity: 0;"
-                ></path>
-            </svg>
-            <div class="timeDisplayingArea">
-                <br> 
-                <div id="indentingBlock"></div>
-                <span id="meridemIndicator">
-                    AM/PM
-                </span>
-                <button onclick='toggleArc()'>toggle arc</button>
-                <button onclick='toggleHand()'>toggle hand</button>
-                <br> 
-                <!-- <div id="indentingBlock"></div> -->
-                <span id="currentTimeInDigitalForm">
-                    HH:MM:SS.m DAY DD/MM/YYYY
-                </span>
-            </div>
-        </div>
+        <div id="text">???</div>
     </body>
 </html>
