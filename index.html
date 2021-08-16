@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Time displaying section on Python output HTML page</title>
+        <script>
+            function toTag(msg) {
+                return (
+                    '<img src=\"digitAsset/number' + msg + '.png\" height=\"118.5\">'
+                )
+            }
+            function onloadFunction() {
+                let arrayOfWeekDaysInThaiLanguage = [
+                    'อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'
+                ];
+                let arrayOfMonthsInThaiLanguage = [
+                    'มกราคม', 'กุมภาพันธ์', 'มีนาคม',
+                    'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+                    'กรกฎาคม', 'สิงหาคม', 'กันยายน',
+                    'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+                ];
+                setInterval(function() {
+                    const dateTimeRightNow = new Date();
+                    document.getElementById('text').innerHTML = (
+                        ''
+                        + toTag((
+                            dateTimeRightNow.getHours()
+                            - (dateTimeRightNow.getHours() % 10)
+                        ) / 10)
+                        + toTag(dateTimeRightNow.getHours() % 10)
+                        + toTag('Colon')
+                        + toTag((
+                            dateTimeRightNow.getMinutes()
+                            - (dateTimeRightNow.getMinutes() % 10)
+                        ) / 10)
+                        + toTag(dateTimeRightNow.getMinutes() % 10)
+                        + toTag('Colon')
+                        + toTag((
+                            dateTimeRightNow.getSeconds()
+                            - (dateTimeRightNow.getSeconds() % 10)
+                        ) / 10)
+                        + toTag(dateTimeRightNow.getSeconds() % 10)
+                        + '<br>'
+                        + arrayOfWeekDaysInThaiLanguage [
+                            dateTimeRightNow.getDay()
+                        ]
+                        + ' '
+                        + dateTimeRightNow.getDate()
+                        + ' '
+                        + arrayOfMonthsInThaiLanguage [
+                            dateTimeRightNow.getMonth()
+                        ]
+                    );
+                }, 1000)
+            }
+        </script>
+        <style>
+            body {
+                background-color: rgb(0, 0, 0);
+            }
+            #text {
+                transform: rotate(0deg);
+                top: 1000px;
+                left: 100px;
+                position: relative;
+                height: 300px;
+                width: 800px;
+                color: rgb(127, 127, 127);
+                font-size: 72px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body onload="onloadFunction()">
+        <span style='
+            color: white;
+            position: relative;
+            top: 2000px;
+        '>...</span>
+        <iframe
+            style="
+                position: relative;
+                top: 1000px;
+                left: 100px;
+                transform: rotate(180deg);
+            "
+            width="640"
+            height="360"
+            src="https://www.youtube.com/embed/AjWfY7SnMBI"
+            title="YouTube video player"
+            frameborder="0"
+            allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture
+            "
+            allowfullscreen
+        ></iframe>
+        <div id="text">???</div>
+    </body>
+</html>
